@@ -1,2 +1,4 @@
 //ignoring text files for now
 *.txt
+
+node_modules
