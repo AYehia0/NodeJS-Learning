@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <h1>Auth</h1> 
+   <form id="form-id">
+       <input type="text" id="email" placeholder="Email">
+       <input type="text" id="firstname" placeholder="Firstname">
+       <input type="text" id="secondname" placeholder="Secondname">
+       <input type="text" id="password" placeholder="Password">
+    <input type="submit" >
+
+   </form>
+   <script>
+       const form = document.getElementById("form-id");
+       form.addEventListener("submit", registerUser);
+
+       async function registerUser(event){
+           //to prevent refreshing the page ,, the default behavior of submit button
+           event.preventDefault();
+           
+           var email = document.getElementById("email").value;
+           var firstname =  document.getElementById("firstname").value;
+           var secondname =  document.getElementById("secondname").value;
+           var password  = document.getElementById("password").value;
+
+           const dataRequest = await fetch("/register", {
+               method : "POST", 
+               headers : {
+                   "Content-Type" : "application/json"
+               },
+               body : JSON.stringify({
+                    email,
+                    firstname,
+                    secondname,
+                    password
+               })
+           }).then((dataRequest) => dataRequest.json())
+       }
+   </script>
+</body>
+
+</html>
