@@ -4,6 +4,7 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const mongodb = require("mongoose");
 const User = require("./model/user");
+const bcrypt = require("bcryptjs");
 
 const PORT = 6969;
 
@@ -25,15 +26,34 @@ app.use(bodyParser.json());
 app.post('/register', async (req, res) => {
 
     //showing the body of the resquest , to will return empty since express doesn't parse json 
-    console.log(req.body);
+    //console.log(req.body);
 
 
     //hashing the password 
+    const email = req.body.email
+    const passwordPlainText = req.body.password
+    const firstname = req.body.firstname
+    const secondname = req.body.secondname
 
+    password = await bcrypt.hash(passwordPlainText, 10);
 
-    //if everthing is ok
-    res.json({status: "OK"})
-    
+    console.error(req.body);
+    //adding to the db
+    try {
+       const userData = await User.create({
+           username : email,
+           password : password,
+           firstname : firstname,
+           lastname : secondname
+       });
+       console.log("User Created Successuflly : " + userData);
+    } catch (err) {
+        console.log(err.code);
+        //duplicate usernames
+        if (err.code === 11000){
+            return res.json({status : "error", error : "Username exists"})
+        }
+    }
 })
 app.listen(PORT, (err) => {
     if(!err)
