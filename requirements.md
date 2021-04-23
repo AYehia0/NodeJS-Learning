@@ -5,3 +5,5 @@ For the database:
     - npm install mongoose 
     - npm install bcryptjs
     - npm install -g nodemon
+    - npm install jsonwebtoken
+    
