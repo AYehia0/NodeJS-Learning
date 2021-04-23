@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <h1>Login</h1> 
+   <form id="login-id">
+       <input type="text" id="email" placeholder="Email" autocomplete="off">
+       <br>
+       <input type="password" id="password" placeholder="Password" autocomplete="off">
+       <br>
+    <input type="submit" >
+
+   </form>
+   <script>
+       const form = document.getElementById("login-id");
+       form.addEventListener("submit", loginUser);
+
+       async function loginUser(event){
+           //to prevent refreshing the page ,, the default behavior of submit button
+           event.preventDefault();
+           
+           var email = document.getElementById("email").value;
+           var password  = document.getElementById("password").value;
+
+           const dataRequest = await fetch("/login", {
+               method : "POST", 
+               headers : {
+                   "Content-Type" : "application/json"
+               },
+               body : JSON.stringify({
+                    email,
+                    password
+               })
+           }).then((dataRequest) => dataRequest.json())
+
+           if (dataRequest.status == "ok"){
+               console.log(dataRequest.data);
+
+               //storing the token in the localStorage so that we can access it later
+               // Potintial Threat here
+               localStorage.setItem("token", dataRequest.data)
+               console.log(dataRequest.data)
+           }
+           else{
+               alert(dataRequest.error);
+           }
+       }
+   </script>
+</body>
+
+</html>
