@@ -45,6 +45,13 @@
                     password
                })
            }).then((dataRequest) => dataRequest.json())
+
+           if (dataRequest.status == "ok"){
+               alert("success");
+           }
+           else{
+               alert(dataRequest.error);
+           }
        }
    </script>
 </body>
