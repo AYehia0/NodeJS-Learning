@@ -28,13 +28,21 @@ app.post('/register', async (req, res) => {
     //showing the body of the resquest , to will return empty since express doesn't parse json 
     //console.log(req.body);
 
-
-    //hashing the password 
+    //extracting the data 
     const email = req.body.email
     const passwordPlainText = req.body.password
     const firstname = req.body.firstname
     const secondname = req.body.secondname
 
+    // Some password handling things 
+    if (passwordPlainText.length < 6 ) {
+        return res.json({status : "error" , error : "Password is too small"})
+    }
+    if (typeof passwordPlainText !== "string" || !passwordPlainText) {
+        return res.json({status : "error" , error : "Invalid Password"})
+    }
+
+    //hashing the password 
     password = await bcrypt.hash(passwordPlainText, 10);
 
     console.error(req.body);
@@ -53,7 +61,9 @@ app.post('/register', async (req, res) => {
         if (err.code === 11000){
             return res.json({status : "error", error : "Username exists"})
         }
+        
     }
+    return res.json({status : "ok"})
 })
 app.listen(PORT, (err) => {
     if(!err)
