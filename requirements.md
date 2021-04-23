@@ -4,3 +4,4 @@ For the database:
     - npm install npm list express
     - npm install mongoose 
     - npm install bcryptjs
+    - npm install -g nodemon
