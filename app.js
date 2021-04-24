@@ -28,7 +28,12 @@ app.use('/', express.static(path.join(__dirname, "static")));
 app.use(bodyParser.json()); 
 //creating a new route to handle the post request of the register form 
 
+app.get("/profile", async (req, res) => {
+    // checks if user is logged in by checking the jwt and display thier info
 
+
+    res.json({status:"ok"});
+})
 //change user's account info 
 app.post("/change-info", async (req, res) => {
 
